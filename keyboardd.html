@@ -67,6 +67,19 @@
                 this.rotationAngle += this.rotationSpeed;
             }
         }
+
+		// Paddle class 
+        class Paddle {
+            constructor(x, y, width, height, speed) {
+                this.x = x; // x position of the paddle
+                this.y = y; // y position of the paddle
+                this.width = width; // width of the paddle
+                this.height = height; // height of the paddle
+                this.speed = speed; // speed of movement
+                this.xVelocity = 0; // initial velocity
+            }
+		}
+
     </script>
 
   </body>
