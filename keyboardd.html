@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+
+    <style type="text/css">
+		canvas {
+			border: 1px solid grey; 
+		}
+    </style>
+
+  </head>
+
+  <body>
+
+    <canvas id="canvas-for-ball"></canvas>
+
+    <script type="text/javascript">
+		 // Ball class representing the peace sign ball
+		 class Ball {
+            constructor(x, y, radius, xVelocity, yVelocity, rotationSpeed) {
+                this.x = x; // x position of the ball
+                this.y = y; // y position of the ball
+                this.radius = radius; // radius of the ball
+                this.xVelocity = xVelocity; // horizontal velocity
+                this.yVelocity = yVelocity; // vertical velocity
+                this.rotationSpeed = rotationSpeed; // speed of rotation
+                this.rotationAngle = 0; // current rotation angle
+            }
+
+            // Draw the ball
+            draw(ctx) {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotationAngle);
+
+                // Draw outer circle (ball)
+                ctx.beginPath();
+                ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
+                ctx.stroke();
+
+                ctx.restore();
+            }
+
+            // Move the ball and handle wall collisions
+            move(canvasWidth, canvasHeight) {
+                this.x += this.xVelocity;
+                this.y += this.yVelocity;
+
+                // Collision detection for left/right walls
+                if (this.x - this.radius <= 0 || this.x + this.radius >= canvasWidth) {
+                    this.xVelocity = -this.xVelocity; // Reverse direction
+                    this.rotationSpeed = -this.rotationSpeed;
+                }
+
+                // Collision detection for top/bottom walls
+                if (this.y - this.radius <= 0 || this.y + this.radius >= canvasHeight) {
+                    this.yVelocity = -this.yVelocity;
+                    this.rotationSpeed = -this.rotationSpeed;
+                }
+
+                // Update the rotation angle
+                this.rotationAngle += this.rotationSpeed;
+            }
+        }
+    </script>
+
+  </body>
+
+</html>
