@@ -78,6 +78,12 @@
                 this.speed = speed; // speed of movement
                 this.xVelocity = 0; // initial velocity
             }
+
+			// Draw the paddle
+            draw(ctx) {
+                ctx.fillStyle = 'blue'; 
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
 		}
 
     </script>
