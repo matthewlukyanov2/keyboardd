@@ -131,11 +131,21 @@
         // Animation loop
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Move and draw the ball
+            ball.move(canvas.width, canvas.height);
+            ball.draw(ctx);
+
+            // Move and draw the paddle
+            paddle.move(canvas.width);
+            paddle.draw(ctx);
+
+            // Continue the animation
+            window.requestAnimationFrame(animate);
         }
-      
 
+        // Start the animation
+        animate();
     </script>
-
-  </body>
-
+</body>
 </html>
