@@ -84,6 +84,11 @@
                 ctx.fillStyle = 'blue'; 
                 ctx.fillRect(this.x, this.y, this.width, this.height);
             }
+
+             // Move the paddle
+             move(canvasWidth) {
+                this.x += this.xVelocity;
+             }
 		}
 
     </script>
