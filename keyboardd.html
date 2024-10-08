@@ -89,7 +89,19 @@
              move(canvasWidth) {
                 this.x += this.xVelocity;
              }
+
+            // Change the paddle's velocity based on the key pressed
+            updateVelocity(direction) {
+                if (direction === 'left') {
+                    this.xVelocity = -this.speed;
+                } else if (direction === 'right') {
+                    this.xVelocity = this.speed;
+                } else if (direction === 'stop') {
+                    this.xVelocity = 0; // Stop moving when key is released
+                }
+            
 		}
+    }
 
     </script>
 
