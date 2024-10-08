@@ -88,6 +88,10 @@
              // Move the paddle
              move(canvasWidth) {
                 this.x += this.xVelocity;
+
+                // Prevent the paddle from going off the canvas
+                if (this.x < 0) this.x = 0;
+                if (this.x + this.width > canvasWidth) this.x = canvasWidth - this.width;
              }
 
             // Change the paddle's velocity based on the key pressed
