@@ -104,11 +104,34 @@
             
     }
               // Set up the canvas and its context
-        const canvas = document.getElementById("canvas-for-ball");
-        const ctx = canvas.getContext("2d");
+             const canvas = document.getElementById("canvas-for-ball");
+             const ctx = canvas.getContext("2d");
 
-        // Create a new ball object
-        let ball = new Ball(150, 150, 20, 2, 2, 0.05);
+              // Create a new ball object
+             let ball = new Ball(150, 150, 20, 2, 2, 0.05);
+
+             // Create a new paddle object
+        let paddle = new Paddle(200, canvas.height - 20, 100, 10, 5);
+
+               // Handle keyboard input for paddle movement
+        window.addEventListener("keydown", function(event) {
+            if (event.key === 'ArrowLeft') {
+                paddle.updateVelocity('left');
+            } else if (event.key === 'ArrowRight') {
+                paddle.updateVelocity('right');
+            }
+        });
+
+        window.addEventListener("keyup", function(event) {
+            if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+                paddle.updateVelocity('stop');
+            }
+        });
+
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
       
 
     </script>
