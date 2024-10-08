@@ -17,7 +17,7 @@
 
   <body>
 
-    <canvas id="canvas-for-ball"></canvas>
+    <canvas id="canvas-for-ball" width="800" height="400"></canvas>
 
     <script type="text/javascript">
 		 // Ball class representing the peace sign ball
@@ -116,6 +116,7 @@
 
              // Create a new paddle object
         let paddle = new Paddle(200, canvas.height - 20, 100, 10, 5);
+        let paddle2 = new Paddle(200, 10, 100, 10, 5); // Top paddle
 
                // Handle keyboard input for paddle movement
         window.addEventListener("keydown", function(event) {
@@ -123,6 +124,10 @@
                 paddle.updateVelocity('left');
             } else if (event.key === 'ArrowRight') {
                 paddle.updateVelocity('right');
+              } else if (event.key === 'a') {
+                paddle2.updateVelocity('left'); // Control for top paddle
+            } else if (event.key === 'd') {
+                paddle2.updateVelocity('right'); // Control for top paddle
             }
         });
 
