@@ -101,7 +101,15 @@
                 }
             
 		}
+            
     }
+              // Set up the canvas and its context
+        const canvas = document.getElementById("canvas-for-ball");
+        const ctx = canvas.getContext("2d");
+
+        // Create a new ball object
+        let ball = new Ball(150, 150, 20, 2, 2, 0.05);
+      
 
     </script>
 
