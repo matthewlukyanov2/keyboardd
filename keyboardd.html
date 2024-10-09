@@ -1,35 +1,27 @@
 <!DOCTYPE html>
-
 <html>
-
-<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-  <head>
+<head>
     <meta charset="UTF-8">
     <title>Canvas</title>
-
     <style type="text/css">
-		canvas {
-			border: 1px solid grey; 
-		}
+        canvas {
+            border: 1px solid grey; 
+        }
     </style>
-
-  </head>
-
-  <body>
-
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+</head>
+<body>
     <canvas id="canvas-for-ball" width="800" height="400"></canvas>
-
     <script type="text/javascript">
-		 // Ball class representing the peace sign ball
-		 class Ball {
+        class Ball {
             constructor(x, y, radius, xVelocity, yVelocity, rotationSpeed) {
-                this.x = x; // x position of the ball
-                this.y = y; // y position of the ball
-                this.radius = radius; // radius of the ball
-                this.xVelocity = xVelocity; // horizontal velocity
-                this.yVelocity = yVelocity; // vertical velocity
-                this.rotationSpeed = rotationSpeed; // speed of rotation
-                this.rotationAngle = 0; // current rotation angle
+                this.x = x; 
+                this.y = y; 
+                this.radius = radius; 
+                this.xVelocity = xVelocity; 
+                this.yVelocity = yVelocity; 
+                this.rotationSpeed = rotationSpeed; 
+                this.rotationAngle = 0; 
             }
 
             // Draw the ball
@@ -37,12 +29,9 @@
                 ctx.save();
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.rotationAngle);
-
-                // Draw outer circle (ball)
                 ctx.beginPath();
                 ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
                 ctx.stroke();
-
                 ctx.restore();
             }
 
@@ -53,7 +42,7 @@
 
                 // Collision detection for left/right walls
                 if (this.x - this.radius <= 0 || this.x + this.radius >= canvasWidth) {
-                    this.xVelocity = -this.xVelocity; // Reverse direction
+                    this.xVelocity = -this.xVelocity;
                     this.rotationSpeed = -this.rotationSpeed;
                 }
 
@@ -68,86 +57,87 @@
             }
         }
 
-		// Paddle class 
+        // Paddle class 
         class Paddle {
             constructor(x, y, width, height, speed) {
-                this.x = x; // x position of the paddle
-                this.y = y; // y position of the paddle
-                this.width = width; // width of the paddle
-                this.height = height; // height of the paddle
-                this.speed = speed; // speed of movement
-                this.xVelocity = 0; // initial velocity
+                this.x = x; 
+                this.y = y; 
+                this.width = width; 
+                this.height = height; 
+                this.speed = speed; 
+                this.yVelocity = 0; 
             }
 
-			// Draw the paddle
+            // Draw the paddle
             draw(ctx) {
                 ctx.fillStyle = 'blue'; 
                 ctx.fillRect(this.x, this.y, this.width, this.height);
             }
 
-             // Move the paddle
-             move(canvasWidth) {
-                this.x += this.xVelocity;
+            // Move the paddle
+            move(canvasHeight) {
+                this.y += this.yVelocity;
 
-                // Prevent the paddle from going off the canvas
-                if (this.x < 0) this.x = 0;
-                if (this.x + this.width > canvasWidth) this.x = canvasWidth - this.width;
-             }
+                // Prevent the paddle from going off the canvas (vertically)
+                if (this.y < 0) this.y = 0;
+                if (this.y + this.height > canvasHeight) this.y = canvasHeight - this.height;
+            }
 
             // Change the paddle's velocity based on the key pressed
             updateVelocity(direction) {
                 if (direction === 'up') {
-                    this.yVelocity = -this.speed; // Move up
+                    this.yVelocity = -this.speed; 
                 } else if (direction === 'down') {
-                    this.yVelocity = this.speed; // Move down
+                    this.yVelocity = this.speed; 
                 } else if (direction === 'stop') {
-                    this.yVelocity = 0; // Stop moving when key is released
+                    this.yVelocity = 0; 
                 }
             }
 
             // Move the paddle's y-position to match the mouse movement
             moveTo(y) {
-                this.y = y - this.height / 2; // Center the paddle to the mouse y-coordinate
+                this.y = y - this.height / 2; 
             }
         }
-              // Set up the canvas and its context
-             const canvas = document.getElementById("canvas-for-ball");
-             const ctx = canvas.getContext("2d");
 
-              // Create a new ball object
-             let ball = new Ball(150, 150, 20, 2, 2, 0.05);
+        // Set up the canvas and its context
+        const canvas = document.getElementById("canvas-for-ball");
+        const ctx = canvas.getContext("2d");
 
-             // Create a new paddle object
-        let paddle = new Paddle(200, canvas.height - 20, 100, 10, 5);
-        let paddle2 = new Paddle(200, 10, 100, 10, 5); // Top paddle
+        // Create a new ball object
+        let ball = new Ball(150, 150, 20, 2, 2, 0.05);
 
-               // Handle keyboard input for both paddles
+        // Create new paddle objects
+        let paddle1 = new Paddle(50, canvas.height / 2 - 25, 10, 50, 5); 
+        let paddle2 = new Paddle(740, canvas.height / 2 - 25, 10, 50, 5); 
+
+        // Handle keyboard input for both paddles
         window.addEventListener("keydown", function(event) {
             if (event.key === 'ArrowUp') {
-                paddle2.updateVelocity('up'); // Move right paddle up
+                paddle2.updateVelocity('up'); 
             } else if (event.key === 'ArrowDown') {
-                paddle2.updateVelocity('down'); // Move right paddle down
+                paddle2.updateVelocity('down'); 
             } else if (event.key === 'w') {
-                paddle1.updateVelocity('up'); // Move left paddle up (using 'w')
+                paddle1.updateVelocity('up'); 
             } else if (event.key === 's') {
-                paddle1.updateVelocity('down'); // Move left paddle down (using 's')
+                paddle1.updateVelocity('down'); 
             }
         });
 
         // Stop paddle movement when the key is released
         window.addEventListener("keyup", function(event) {
             if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
-                paddle2.updateVelocity('stop'); // Stop right paddle movement
+                paddle2.updateVelocity('stop'); 
             } else if (event.key === 'w' || event.key === 's') {
-                paddle1.updateVelocity('stop'); // Stop left paddle movement
+                paddle1.updateVelocity('stop'); 
             }
         });
 
         // Handle mouse movement for the left paddle (paddle1)
         canvas.addEventListener("mousemove", function(event) {
             const rect = canvas.getBoundingClientRect();
-            const mouseY = event.clientY - rect.top; // Get mouse y-coordinate relative to the canvas
-            paddle1.moveTo(mouseY); // Move paddle1 to the mouse y position
+            const mouseY = event.clientY - rect.top; 
+            paddle1.moveTo(mouseY); 
         });
 
         // Animation loop
@@ -158,18 +148,15 @@
             ball.move(canvas.width, canvas.height);
             ball.draw(ctx);
 
-            // Move and draw both paddles
             paddle1.move(canvas.height);
             paddle1.draw(ctx);
 
             paddle2.move(canvas.height);
             paddle2.draw(ctx);
-            
-            // Continue the animation
+
             window.requestAnimationFrame(animate);
         }
 
-        
         // Start the animation
         animate();
     </script>
