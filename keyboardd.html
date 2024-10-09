@@ -96,17 +96,20 @@
 
             // Change the paddle's velocity based on the key pressed
             updateVelocity(direction) {
-                if (direction === 'left') {
-                    this.xVelocity = -this.speed;
-                } else if (direction === 'right') {
-                    this.xVelocity = this.speed;
+                if (direction === 'up') {
+                    this.yVelocity = -this.speed; // Move up
+                } else if (direction === 'down') {
+                    this.yVelocity = this.speed; // Move down
                 } else if (direction === 'stop') {
-                    this.xVelocity = 0; // Stop moving when key is released
+                    this.yVelocity = 0; // Stop moving when key is released
                 }
-            
-		}
-            
-    }
+            }
+
+            // Move the paddle's y-position to match the mouse movement
+            moveTo(y) {
+                this.y = y - this.height / 2; // Center the paddle to the mouse y-coordinate
+            }
+        }
               // Set up the canvas and its context
              const canvas = document.getElementById("canvas-for-ball");
              const ctx = canvas.getContext("2d");
@@ -153,6 +156,7 @@
             window.requestAnimationFrame(animate);
         }
 
+        
         // Start the animation
         animate();
     </script>
