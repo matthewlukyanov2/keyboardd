@@ -29,10 +29,33 @@
                 ctx.save();
                 ctx.translate(this.x, this.y);
                 ctx.rotate(this.rotationAngle);
+
+                // Draw outer circle
                 ctx.beginPath();
                 ctx.arc(0, 0, this.radius, 0, Math.PI * 2);
                 ctx.stroke();
-                ctx.restore();
+
+                // Draw the peace sign inner lines
+                ctx.beginPath();
+                ctx.moveTo(0, -this.radius);
+                ctx.lineTo(0, this.radius);
+                ctx.stroke();
+
+                // Left diagonal line
+                ctx.beginPath();
+                let angle1 = (5 * Math.PI) / 4;
+                ctx.moveTo(0, 0);
+                ctx.lineTo(Math.cos(angle1) * this.radius, Math.sin(angle1) * this.radius);
+                ctx.stroke();
+
+                // Right diagonal line
+                ctx.beginPath();
+                let angle2 = (7 * Math.PI) / 4;
+                ctx.moveTo(0, 0);
+                ctx.lineTo(Math.cos(angle2) * this.radius, Math.sin(angle2) * this.radius);
+                ctx.stroke();
+
+                ctx.restore(); // Restore the original context
             }
 
             // Move the ball and handle wall collisions
