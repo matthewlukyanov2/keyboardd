@@ -11,6 +11,7 @@
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 </head>
 <body>
+    <h1>Matthew</h1>
     <canvas id="canvas-for-ball" width="800" height="400"></canvas>
     <script type="text/javascript">
         class Ball {
@@ -22,6 +23,8 @@
                 this.yVelocity = yVelocity; 
                 this.rotationSpeed = rotationSpeed; 
                 this.rotationAngle = 0; 
+                this.gravity = 0.1; 
+
             }
 
             // Draw the ball
@@ -60,6 +63,7 @@
 
             // Move the ball and handle wall collisions
             move(canvasWidth, canvasHeight) {
+                this.yVelocity += this.gravity;
                 this.x += this.xVelocity;
                 this.y += this.yVelocity;
 
@@ -70,10 +74,13 @@
                 }
 
                 // Collision detection for top/bottom walls
-                if (this.y - this.radius <= 0 || this.y + this.radius >= canvasHeight) {
-                    this.yVelocity = -this.yVelocity;
-                    this.rotationSpeed = -this.rotationSpeed;
-                }
+                if (this.y + this.radius >= canvasHeight) {
+                    this.y = canvasHeight - this.radius; 
+                    this.yVelocity *= -0.9; // Reverse direction and lose 10% energy on bounce
+                } else if (this.y - this.radius <= 0) {
+                    this.y = this.radius; 
+                    this.yVelocity *= -0.9; 
+               }
 
                 // Update the rotation angle
                 this.rotationAngle += this.rotationSpeed;
@@ -144,6 +151,13 @@
                 paddle1.updateVelocity('up'); 
             } else if (event.key === 's') {
                 paddle1.updateVelocity('down'); 
+            }
+
+            // Control rotation speed
+            if (event.key === 'a') {
+                ball.rotationSpeed += 0.01; // Increase rotation speed
+            } else if (event.key === 'd') {
+                ball.rotationSpeed -= 0.01; // Decrease rotation speed
             }
         });
 
