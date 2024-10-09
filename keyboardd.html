@@ -121,23 +121,33 @@
         let paddle = new Paddle(200, canvas.height - 20, 100, 10, 5);
         let paddle2 = new Paddle(200, 10, 100, 10, 5); // Top paddle
 
-               // Handle keyboard input for paddle movement
+               // Handle keyboard input for both paddles
         window.addEventListener("keydown", function(event) {
-            if (event.key === 'ArrowLeft') {
-                paddle.updateVelocity('left');
-            } else if (event.key === 'ArrowRight') {
-                paddle.updateVelocity('right');
-              } else if (event.key === 'a') {
-                paddle2.updateVelocity('left'); // Control for top paddle
-            } else if (event.key === 'd') {
-                paddle2.updateVelocity('right'); // Control for top paddle
+            if (event.key === 'ArrowUp') {
+                paddle2.updateVelocity('up'); // Move right paddle up
+            } else if (event.key === 'ArrowDown') {
+                paddle2.updateVelocity('down'); // Move right paddle down
+            } else if (event.key === 'w') {
+                paddle1.updateVelocity('up'); // Move left paddle up (using 'w')
+            } else if (event.key === 's') {
+                paddle1.updateVelocity('down'); // Move left paddle down (using 's')
             }
         });
 
+        // Stop paddle movement when the key is released
         window.addEventListener("keyup", function(event) {
-            if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
-                paddle.updateVelocity('stop');
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                paddle2.updateVelocity('stop'); // Stop right paddle movement
+            } else if (event.key === 'w' || event.key === 's') {
+                paddle1.updateVelocity('stop'); // Stop left paddle movement
             }
+        });
+
+        // Handle mouse movement for the left paddle (paddle1)
+        canvas.addEventListener("mousemove", function(event) {
+            const rect = canvas.getBoundingClientRect();
+            const mouseY = event.clientY - rect.top; // Get mouse y-coordinate relative to the canvas
+            paddle1.moveTo(mouseY); // Move paddle1 to the mouse y position
         });
 
         // Animation loop
@@ -148,10 +158,13 @@
             ball.move(canvas.width, canvas.height);
             ball.draw(ctx);
 
-            // Move and draw the paddle
-            paddle.move(canvas.width);
-            paddle.draw(ctx);
+            // Move and draw both paddles
+            paddle1.move(canvas.height);
+            paddle1.draw(ctx);
 
+            paddle2.move(canvas.height);
+            paddle2.draw(ctx);
+            
             // Continue the animation
             window.requestAnimationFrame(animate);
         }
